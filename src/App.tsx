@@ -36,6 +36,15 @@ function App() {
             height="32"
           />
         </Link>
+        <Link href="https://www.useelven.com" target="_blank">
+          <Image
+            src="/useelven.png"
+            className="logo"
+            alt="useElven logo"
+            width="32"
+            height="32"
+          />
+        </Link>
       </HStack>
       <Box>
         <Heading as="h1">Vite + React + useElven</Heading>
