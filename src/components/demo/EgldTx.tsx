@@ -1,5 +1,5 @@
 import { Link, Text, Box, Spinner, Flex } from "@chakra-ui/react";
-import { TransactionPayload } from "@multiversx/sdk-core";
+import { TransactionPayload, TokenPayment } from "@multiversx/sdk-core";
 import { useTransaction, useConfig } from "@useelven/core";
 import { useCallback } from "react";
 import { ActionButton } from "../tools/ActionButton";
@@ -17,7 +17,7 @@ export const EGLDTx = () => {
       address: egldTransferAddress,
       gasLimit: 50000 + 1500 * demoMessage.length,
       data: new TransactionPayload(demoMessage),
-      value: Number(egldTransferAmount),
+      value: TokenPayment.egldFromAmount(egldTransferAmount),
     });
   }, [triggerTx]);
 
