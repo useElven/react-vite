@@ -1,7 +1,7 @@
 {
   "name": "useelven-react-vite",
   "private": true,
-  "version": "0.0.4",
+  "version": "0.0.5",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -12,8 +12,8 @@
     "@chakra-ui/react": "2.5.1",
     "@emotion/react": "11.10.6",
     "@emotion/styled": "11.10.6",
-    "@useelven/core": "0.0.6",
-    "framer-motion": "10.0.0",
+    "@useelven/core": "0.0.8",
+    "framer-motion": "10.0.1",
     "qrcode": "1.5.1",
     "react": "18.2.0",
     "react-dom": "18.2.0"

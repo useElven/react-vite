@@ -9,7 +9,7 @@ const egldTransferAmount = import.meta.env.VITE_EGLD_TRANSFER_AMOUNT || "";
 
 export const EGLDTx = () => {
   const { pending, triggerTx, txResult } = useTransaction();
-  const { explorerAddress } = useConfig();
+  const { explorerAddress, chainType } = useConfig();
 
   const handleSendTx = useCallback(() => {
     const demoMessage = "Transaction demo!";
@@ -32,7 +32,7 @@ export const EGLDTx = () => {
           {egldTransferAddress}
         </Link>{" "}
         <br />
-        (devnet)
+        ({chainType})
       </Text>
       <ActionButton disabled={pending} onClick={handleSendTx}>
         <Text>Send Transaction</Text>

@@ -4,9 +4,8 @@ import { ChakraProvider } from "@chakra-ui/react";
 import App from "./App";
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
-  <React.StrictMode>
-    <ChakraProvider>
-      <App />
-    </ChakraProvider>
-  </React.StrictMode>
+  // TODO: add React strict mode when the problem with Ledger (useElven) in development is solved
+  <ChakraProvider>
+    <App />
+  </ChakraProvider>
 );
