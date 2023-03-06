@@ -14,7 +14,16 @@ import { Authenticated } from "./components/tools/Authenticated";
 import { EGLDTx } from "./components/demo/EgldTx";
 
 function App() {
-  useNetworkSync({ chainType: "devnet" });
+  useNetworkSync({
+    chainType: import.meta.env.VITE_MULTIVERSX_CHAIN_TYPE || "devnet",
+    ...(import.meta.env.VITE_WALLET_CONNECT_PROJECT_ID
+      ? {
+          walletConnectV2ProjectId: import.meta.env
+            .VITE_WALLET_CONNECT_PROJECT_ID,
+        }
+      : {}),
+  });
+
   return (
     <VStack justify="center" height="$100vh">
       <HStack justify="center" height="36" width="100%" mb="8">

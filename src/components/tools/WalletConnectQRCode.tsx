@@ -1,33 +1,33 @@
-import { useEffect, useState, FunctionComponent } from 'react';
-import { Flex, Box } from '@chakra-ui/react';
-import { useConfig } from '@useelven/core';
-import { isMobile } from '../../utils/isMobile';
-import QRCode from 'qrcode';
+import { useEffect, useState, FunctionComponent } from "react";
+import { Flex, Box } from "@chakra-ui/react";
+import { useConfig } from "@useelven/core";
+import { isMobile } from "../../utils/isMobile";
+import QRCode from "qrcode";
 
-interface MobileLoginQRProps {
-  walletConnectUri: string;
+interface WalletConnectQRCodeProps {
+  uri: string;
 }
 
-export const MobileLoginQR: FunctionComponent<MobileLoginQRProps> = ({
-  walletConnectUri,
-}) => {
-  const [qrCodeSvg, setQrCodeSvg] = useState('');
+export const WalletConnectQRCode: FunctionComponent<
+  WalletConnectQRCodeProps
+> = ({ uri }) => {
+  const [qrCodeSvg, setQrCodeSvg] = useState("");
   const { walletConnectDeepLink } = useConfig();
 
   useEffect(() => {
     const generateQRCode = async () => {
-      if (!walletConnectUri) {
+      if (!uri) {
         return;
       }
 
-      const svg = await QRCode.toString(walletConnectUri, {
-        type: 'svg',
+      const svg = await QRCode.toString(uri, {
+        type: "svg",
       });
 
       setQrCodeSvg(svg);
     };
     generateQRCode();
-  }, [walletConnectUri]);
+  }, [uri]);
 
   const mobile = isMobile();
 
@@ -36,7 +36,7 @@ export const MobileLoginQR: FunctionComponent<MobileLoginQRProps> = ({
       <Box
         sx={{
           svg: {
-            borderRadius: 'xl',
+            borderRadius: "xl",
           },
         }}
         dangerouslySetInnerHTML={{
@@ -56,11 +56,11 @@ export const MobileLoginQR: FunctionComponent<MobileLoginQRProps> = ({
             px={6}
             mt={6}
             fontWeight="normal"
-            _hover={{ bg: 'dappTemplate.color2.darker' }}
+            _hover={{ bg: "dappTemplate.color2.darker" }}
             transition="background-color .3s"
             as="a"
             href={`${walletConnectDeepLink}?wallet-connect=${encodeURIComponent(
-              walletConnectUri
+              uri
             )}`}
             rel="noopener noreferrer nofollow"
             target="_blank"
