@@ -1,8 +1,8 @@
-import { FC, useCallback, useState, useEffect, useRef } from 'react';
-import { Box, Text, Flex, Spinner } from '@chakra-ui/react';
-import { LoginMethodsEnum, useLoginInfo } from '@useelven/core';
-import { shortenHash } from '../../utils/shortenHash';
-import { errorParse } from '../../utils/errorParse';
+import { FC, useCallback, useState, useEffect, useRef } from "react";
+import { Box, Text, Flex, Spinner } from "@chakra-ui/react";
+import { LoginMethodsEnum, useLoginInfo } from "@useelven/core";
+import { shortenHash } from "../../utils/shortenHash";
+import { errorParse } from "../../utils/errorParse";
 
 interface LedgerAccountsListProps {
   getHWAccounts: (page?: number, pageSize?: number) => Promise<string[]>;
@@ -15,7 +15,7 @@ interface LedgerAccountsListProps {
 
 const ADDRESSES_PER_PAGE = 10;
 const LEDGER_NOT_CONNECTED_CODE = 0x6e01;
-const LEDGER_DISCONNECTED = 'DisconnectedDeviceDuringOperation';
+const LEDGER_DISCONNECTED = "DisconnectedDeviceDuringOperation";
 
 export const LedgerAccountsList: FC<LedgerAccountsListProps> = ({
   getHWAccounts,
@@ -23,53 +23,82 @@ export const LedgerAccountsList: FC<LedgerAccountsListProps> = ({
   handleLogin,
 }) => {
   const [accounts, setAccounts] = useState<string[]>();
-  const [currentPage, setCurrentPage] = useState(0);
   const [listPending, setListPending] = useState(true);
   const [error, setError] = useState<string>();
   const [chosenAddress, setAddress] = useState<string>();
 
   const { loginToken } = useLoginInfo();
 
-  const mounted = useRef(false);
+  const getAccounts = async (page: number) =>
+    await getHWAccounts(page, ADDRESSES_PER_PAGE);
 
+  const handleAccounts = async (page: number) => {
+    const accountsResult = await getAccounts(page);
+    if (accountsResult?.length > 0) setAccounts(accountsResult);
+  };
+
+  const handleErrors = (e: unknown) => {
+    const err = e as { statusCode: number; name: string };
+    if (
+      err.statusCode === LEDGER_NOT_CONNECTED_CODE ||
+      err.name === LEDGER_DISCONNECTED
+    ) {
+      setError(
+        "Not connected, please check the connection and make sure that you have the MultiversX app opened on your Ledger device."
+      );
+    } else {
+      setError(`Error: ${errorParse(e)}`);
+    }
+  };
+
+  const fetchedOnce = useRef<boolean>(false);
   useEffect(() => {
-    mounted.current = true;
-
     const fetch = async () => {
+      setListPending(true);
       try {
-        mounted.current && setListPending(true);
-        const accounts = await getHWAccounts(currentPage, ADDRESSES_PER_PAGE);
-        if (accounts?.length > 0 && mounted.current) setAccounts(accounts);
+        await handleAccounts(0);
       } catch (e) {
-        const err = e as { statusCode: number; name: string };
-        if (
-          (err.statusCode === LEDGER_NOT_CONNECTED_CODE ||
-            err.name === LEDGER_DISCONNECTED) &&
-          mounted.current
-        ) {
-          setError(
-            'Not connected, please check the connection and make sure that you have the MultiversX app opened on your Ledger device.'
-          );
-        } else {
-          setError(`Error: ${errorParse(e)}`);
-        }
+        handleErrors(e);
       } finally {
-        mounted.current && setListPending(false);
+        setListPending(false);
       }
     };
-    fetch();
+    if (!fetchedOnce.current) fetch();
     return () => {
-      mounted.current = false;
+      fetchedOnce.current = true;
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentPage]);
-
-  const handlePrev = useCallback(() => {
-    setCurrentPage((prevState) => (prevState > 0 ? prevState - 1 : prevState));
   }, []);
 
-  const handleNext = useCallback(() => {
-    setCurrentPage((prevState) => prevState + 1);
+  const currentPage = useRef<number>(0);
+
+  const handlePrev = useCallback(async () => {
+    setListPending(true);
+    try {
+      const prevPage =
+        currentPage.current > 0 ? currentPage.current - 1 : currentPage.current;
+      currentPage.current = prevPage;
+      await handleAccounts(prevPage);
+    } catch (e) {
+      handleErrors(e);
+    } finally {
+      setListPending(false);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const handleNext = useCallback(async () => {
+    setListPending(true);
+    try {
+      const nextPage = currentPage.current + 1;
+      currentPage.current = nextPage;
+      await handleAccounts(nextPage);
+    } catch (e) {
+      handleErrors(e);
+    } finally {
+      setListPending(false);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const login = useCallback(
@@ -108,7 +137,7 @@ export const LedgerAccountsList: FC<LedgerAccountsListProps> = ({
         {loginToken && (
           <Box mt={3}>
             <Box fontWeight="bold">Auth token:</Box> {loginToken}
-            {'{}'}
+            {"{}"}
           </Box>
         )}
       </Flex>
@@ -126,13 +155,13 @@ export const LedgerAccountsList: FC<LedgerAccountsListProps> = ({
           cursor="pointer"
           border="1px solid transparent"
           borderRadius="md"
-          _hover={{ border: '1px dotted #fff', paddingLeft: 2 }}
+          _hover={{ border: "1px dotted #fff", paddingLeft: 2 }}
           transition="padding-left 0.2s"
           padding={1}
           onClick={login(index, account)}
         >
           <Box as="span" display="inline-block" textAlign="center" minWidth={4}>
-            {index + currentPage * ADDRESSES_PER_PAGE}
+            {index + currentPage.current * ADDRESSES_PER_PAGE}
           </Box>
           :
           <Box
@@ -148,8 +177,8 @@ export const LedgerAccountsList: FC<LedgerAccountsListProps> = ({
       <Flex justifyContent="space-between" marginTop={6}>
         <Text
           onClick={handlePrev}
-          cursor={currentPage === 0 ? 'not-allowed' : 'pointer'}
-          opacity={currentPage === 0 ? 0.5 : 1}
+          cursor={currentPage.current === 0 ? "not-allowed" : "pointer"}
+          opacity={currentPage.current === 0 ? 0.5 : 1}
         >
           Prev
         </Text>

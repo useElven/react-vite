@@ -15,6 +15,7 @@ import { EGLDTx } from "./components/demo/EgldTx";
 
 function App() {
   useNetworkSync({
+    apiTimeout: '10000',
     chainType: import.meta.env.VITE_MULTIVERSX_CHAIN_TYPE || "devnet",
     ...(import.meta.env.VITE_WALLET_CONNECT_PROJECT_ID
       ? {
