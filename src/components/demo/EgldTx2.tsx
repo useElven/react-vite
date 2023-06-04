@@ -10,27 +10,27 @@ import { useCallback, useEffect, useState } from "react";
 import { ActionButton } from "../tools/ActionButton";
 
 const egldTransferAddress = import.meta.env.VITE_EGLD_TRANSFER_ADDRESS || "";
-const egldTransferAmount = import.meta.env.VITE_EGLD_TRANSFER_AMOUNT || "";
+const egldTransferAmount2 = import.meta.env.VITE_EGLD_TRANSFER_AMOUNT2 || "";
 
-export const EGLDTx = () => {
+export const EGLDTx2 = () => {
   const { pending, triggerTx, txResult } = useTransaction({
-    webWalletRedirectUrl: "/?webWalletTx=tx1",
+    webWalletRedirectUrl: "/?webWalletTx=tx2",
   });
   const { loginMethod } = useLoginInfo();
   const { explorerAddress, chainType } = useConfig();
   const [txHashResult, setTxHashResult] = useState('');
 
   const handleSendTx = useCallback(() => {
-    const demoMessage = "Transaction demo!";
+    const demoMessage = "Transaction demo 2!";
     triggerTx({
       address: egldTransferAddress,
       gasLimit: 50000 + 1500 * demoMessage.length,
       data: new TransactionPayload(demoMessage),
-      value: TokenTransfer.egldFromAmount(egldTransferAmount),
+      value: TokenTransfer.egldFromAmount(egldTransferAmount2),
     });
   }, [triggerTx]);
 
-  // Temporary solution for multiple tx signing with web wallet using custom tx1 url param
+  // Temporary solution for multiple tx signing with web wallet using custom tx2 url param
   // Handling such cases will be improved in useElven
   const triggeredTx = () => {
     const windowLocationSearch = window.location.search;
@@ -39,7 +39,7 @@ export const EGLDTx = () => {
     const webWalletTx = urlParams?.get("webWalletTx");
 
     if (loginMethod === LoginMethodsEnum.wallet) {
-      return isWebWalletTx && webWalletTx === "tx1";
+      return isWebWalletTx && webWalletTx === "tx2";
     }
     return true;
   };
@@ -55,9 +55,11 @@ export const EGLDTx = () => {
   }, [ownsTx, txResult?.hash])
 
   return (
-    <Box position="relative" pt={16} pb={4} textAlign="center">
+    <Box position="relative" pt={4} pb={16} textAlign="center">
       <Text mb={4}>
-        You will be sending 0.001 EGLD to the address: <br />
+        You will be sending 0.002 EGLD to the address
+        <br />
+        (for testing transaction triggers at the same time): <br />
         <Link
           href={`${explorerAddress}/accounts/${egldTransferAddress}`}
           fontWeight="bold"

@@ -12,6 +12,7 @@ import reactLogo from "./assets/react.svg";
 import { LoginModalButton } from "./components/tools/LoginModalButton";
 import { Authenticated } from "./components/tools/Authenticated";
 import { EGLDTx } from "./components/demo/EgldTx";
+import { EGLDTx2 } from "./components/demo/EgldTx2";
 
 function App() {
   useNetworkSync({
@@ -26,7 +27,7 @@ function App() {
   });
 
   return (
-    <VStack justify="center" height="$100vh">
+    <VStack justify="center" minHeight="$100vh" pt={16}>
       <HStack justify="center" height="36" width="100%" mb="8">
         <Link href="https://vitejs.dev" target="_blank">
           <Image
@@ -65,6 +66,7 @@ function App() {
       </Box>
       <Authenticated>
         <EGLDTx />
+        <EGLDTx2 />
       </Authenticated>
     </VStack>
   );
