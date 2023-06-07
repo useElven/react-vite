@@ -61,7 +61,13 @@ export const LoginModalButton: FC<LoginModalButtonProps> = ({
           {isLoggingIn ? "Connecting..." : "Connect with MultiversX"}
         </ActionButton>
       )}
-      <Modal isOpen={opened} size="sm" onClose={close} isCentered>
+      <Modal
+        isOpen={opened}
+        size="sm"
+        onClose={close}
+        isCentered
+        onCloseComplete={onCloseComplete}
+      >
         <CustomModalOverlay />
         <ModalContent
           bgColor="dappTemplate.dark.darker"
