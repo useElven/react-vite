@@ -5,6 +5,7 @@ import {
   useConfig,
   useLoginInfo,
   LoginMethodsEnum,
+  WebWalletUrlParamsEnum,
 } from "@useelven/core";
 import { useCallback, useEffect, useState } from "react";
 import { ActionButton } from "../tools/ActionButton";
@@ -18,13 +19,13 @@ export const EGLDTx = () => {
   });
   const { loginMethod } = useLoginInfo();
   const { explorerAddress, chainType } = useConfig();
-  const [txHashResult, setTxHashResult] = useState('');
+  const [txHashResult, setTxHashResult] = useState("");
 
   const handleSendTx = useCallback(() => {
     const demoMessage = "Transaction demo!";
     triggerTx({
       address: egldTransferAddress,
-      gasLimit: 50000 + 1500 * demoMessage.length,
+      gasLimit: 100000 + 1500 * demoMessage.length,
       data: new TransactionPayload(demoMessage),
       value: TokenTransfer.egldFromAmount(egldTransferAmount),
     });
@@ -36,9 +37,12 @@ export const EGLDTx = () => {
     const windowLocationSearch = window.location.search;
     const urlParams = new URLSearchParams(windowLocationSearch);
     const isWebWalletTx = urlParams?.has("webWalletTx");
+    const isWebWalletGuardianSign = urlParams?.has(
+      WebWalletUrlParamsEnum.hasWebWalletGuardianSign
+    );
     const webWalletTx = urlParams?.get("webWalletTx");
 
-    if (loginMethod === LoginMethodsEnum.wallet) {
+    if (isWebWalletGuardianSign || loginMethod === LoginMethodsEnum.wallet) {
       return isWebWalletTx && webWalletTx === "tx1";
     }
     return true;
@@ -50,9 +54,9 @@ export const EGLDTx = () => {
   useEffect(() => {
     const txHashResult = ownsTx && txResult?.hash;
     if (txHashResult) {
-      setTxHashResult(txHashResult)
+      setTxHashResult(txHashResult);
     }
-  }, [ownsTx, txResult?.hash])
+  }, [ownsTx, txResult?.hash]);
 
   return (
     <Box position="relative" pt={16} pb={4} textAlign="center">
@@ -74,6 +78,7 @@ export const EGLDTx = () => {
           <Text>Your transaction: </Text>
           <Link
             href={`${explorerAddress}/transactions/${txHashResult}`}
+            target="_blank"
             fontWeight="bold"
           >
             {txHashResult}

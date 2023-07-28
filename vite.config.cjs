@@ -10,6 +10,10 @@ module.exports = async () => {
     optimizeDeps: {
       include: ["buffer", "process"],
     },
+    server: {
+      host: "localhost",
+      port: 3000,
+    },
     plugins: [
       react(),
       {
