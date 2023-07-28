@@ -5,8 +5,10 @@ import {
   useConfig,
   useLoginInfo,
   LoginMethodsEnum,
+  useAccount,
+  WebWalletUrlParamsEnum,
 } from "@useelven/core";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { ActionButton } from "../tools/ActionButton";
 
 const egldTransferAddress = import.meta.env.VITE_EGLD_TRANSFER_ADDRESS || "";
@@ -14,17 +16,21 @@ const egldTransferAmount2 = import.meta.env.VITE_EGLD_TRANSFER_AMOUNT2 || "";
 
 export const EGLDTx2 = () => {
   const { pending, triggerTx, txResult } = useTransaction({
-    webWalletRedirectUrl: "/?webWalletTx=tx2",
+    webWalletRedirectUrl: "/?txid=tx2",
   });
   const { loginMethod } = useLoginInfo();
   const { explorerAddress, chainType } = useConfig();
-  const [txHashResult, setTxHashResult] = useState('');
+  const { activeGuardianAddress } = useAccount();
 
   const handleSendTx = useCallback(() => {
     const demoMessage = "Transaction demo 2!";
+    let gasLimit = 50000 + 1500 * demoMessage.length;
+    if (activeGuardianAddress) {
+      gasLimit = gasLimit + 50000;
+    }
     triggerTx({
       address: egldTransferAddress,
-      gasLimit: 50000 + 1500 * demoMessage.length,
+      gasLimit,
       data: new TransactionPayload(demoMessage),
       value: TokenTransfer.egldFromAmount(egldTransferAmount2),
     });
@@ -35,24 +41,23 @@ export const EGLDTx2 = () => {
   const triggeredTx = () => {
     const windowLocationSearch = window.location.search;
     const urlParams = new URLSearchParams(windowLocationSearch);
-    const isWebWalletTx = urlParams?.has("webWalletTx");
-    const webWalletTx = urlParams?.get("webWalletTx");
+    const isTxid = urlParams?.has("txid");
+    const txid = urlParams?.get("txid");
 
-    if (loginMethod === LoginMethodsEnum.wallet) {
-      return isWebWalletTx && webWalletTx === "tx2";
+    const isWebWalletGuardianSign = urlParams?.has(
+      WebWalletUrlParamsEnum.hasWebWalletGuardianSign
+    );
+
+    if (isWebWalletGuardianSign || loginMethod === LoginMethodsEnum.wallet) {
+      return isTxid && txid === "tx2";
     }
+
     return true;
   };
 
-  const ownsTx = triggeredTx();
-  const txPending = ownsTx && pending;
-
-  useEffect(() => {
-    const txHashResult = ownsTx && txResult?.hash;
-    if (txHashResult) {
-      setTxHashResult(txHashResult)
-    }
-  }, [ownsTx, txResult?.hash])
+  const ownsTx = useRef(triggeredTx());
+  const txPending = ownsTx.current && pending;
+  const txHashResult = ownsTx.current && txResult?.hash;
 
   return (
     <Box position="relative" pt={4} pb={16} textAlign="center">
@@ -63,6 +68,8 @@ export const EGLDTx2 = () => {
         <Link
           href={`${explorerAddress}/accounts/${egldTransferAddress}`}
           fontWeight="bold"
+          target="_blank"
+          rel="noopener noreferrer"
         >
           {egldTransferAddress}
         </Link>{" "}
@@ -77,6 +84,8 @@ export const EGLDTx2 = () => {
           <Link
             href={`${explorerAddress}/transactions/${txHashResult}`}
             fontWeight="bold"
+            target="_blank"
+            rel="noopener noreferrer"
           >
             {txHashResult}
           </Link>
