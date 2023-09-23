@@ -62,7 +62,7 @@ function App() {
       </Box>
       <LoginModalButton />
       <Box>
-        <Text mt="8">Click on the Vite and React logos to learn more</Text>
+        <Text mt="8">Click on the Vite, React and useElven logos to learn more</Text>
       </Box>
       <Authenticated>
         <EGLDTx />
