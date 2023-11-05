@@ -48,7 +48,11 @@ export const EGLDTx = () => {
       WebWalletUrlParamsEnum.hasWebWalletGuardianSign
     );
 
-    if (isWebWalletGuardianSign || loginMethod === LoginMethodsEnum.wallet || LoginMethodsEnum.xalias) {
+    if (
+      isWebWalletGuardianSign ||
+      loginMethod === LoginMethodsEnum.wallet ||
+      loginMethod === LoginMethodsEnum.xalias
+    ) {
       return isTxid && txid === "tx1";
     }
 
