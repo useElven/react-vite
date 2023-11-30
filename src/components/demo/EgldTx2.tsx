@@ -23,7 +23,7 @@ export const EGLDTx2 = () => {
   const { activeGuardianAddress } = useAccount();
 
   const handleSendTx = useCallback(() => {
-    const demoMessage = "Transaction demo 2!";
+    const demoMessage = "Transaction demo from xDevGuild Vite + React dapp template!";
     let gasLimit = 50000 + 1500 * demoMessage.length;
     if (activeGuardianAddress) {
       gasLimit = gasLimit + 50000;

@@ -1,7 +1,10 @@
-const inject = require("@rollup/plugin-inject");
-const react = require("@vitejs/plugin-react");
+import inject from "@rollup/plugin-inject";
+import react from "@vitejs/plugin-react";
 
-module.exports = async () => {
+import { createRequire } from 'node:module';
+const require = createRequire(import.meta.url);
+
+export default async () => {
   const { default: stdLibBrowser } = await import("node-stdlib-browser");
   return {
     resolve: {

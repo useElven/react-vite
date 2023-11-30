@@ -1,7 +1,7 @@
 {
   "name": "useelven-react-vite",
   "private": true,
-  "version": "0.7.0",
+  "version": "0.8.0",
   "type": "module",
   "scripts": {
     "dev": "vite --host",
@@ -10,24 +10,24 @@
   },
   "dependencies": {
     "@chakra-ui/icons": "2.1.1",
-    "@chakra-ui/react": "2.8.1",
+    "@chakra-ui/react": "2.8.2",
     "@emotion/react": "11.11.1",
     "@emotion/styled": "11.11.0",
-    "@multiversx/sdk-core": "12.12.0",
-    "@useelven/core": "0.11.0",
-    "framer-motion": "10.16.4",
+    "@multiversx/sdk-core": "12.15.0",
+    "@useelven/core": "0.12.0",
+    "framer-motion": "10.16.9",
     "qrcode": "1.5.3",
     "react": "18.2.0",
     "react-dom": "18.2.0"
   },
   "devDependencies": {
     "@rollup/plugin-inject": "5.0.5",
-    "@types/qrcode": "1.5.4",
-    "@types/react": "18.2.35",
-    "@types/react-dom": "18.2.14",
-    "@vitejs/plugin-react": "4.1.1",
+    "@types/qrcode": "1.5.5",
+    "@types/react": "18.2.39",
+    "@types/react-dom": "18.2.17",
+    "@vitejs/plugin-react": "4.2.0",
     "node-stdlib-browser": "1.2.0",
-    "typescript": "5.2.2",
-    "vite": "4.5.0"
+    "typescript": "5.3.2",
+    "vite": "5.0.4"
   }
 }

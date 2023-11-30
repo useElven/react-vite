@@ -6,7 +6,7 @@ A demo where you can sign in using MultiversX signing providers and you can send
 
 All is based on [useElven](https://www.useelven.com) React tools.
 
-This is basically a starting point when you would want to use React + Vite. Check the vite.config.cjs file. There is an important configuration to make it work.
+This is basically a starting point when you would want to use React + Vite. Check the vite.config.js file. There is an important configuration to make it work.
 
 There will be more examples and documentations.
 
