@@ -1,7 +1,7 @@
 {
   "name": "useelven-react-vite",
   "private": true,
-  "version": "0.8.1",
+  "version": "0.8.2",
   "type": "module",
   "scripts": {
     "dev": "vite --host",
@@ -14,7 +14,7 @@
     "@emotion/react": "11.11.3",
     "@emotion/styled": "11.11.0",
     "@multiversx/sdk-core": "12.17.0",
-    "@useelven/core": "0.14.0",
+    "@useelven/core": "0.15.0",
     "framer-motion": "10.16.16",
     "qrcode": "1.5.3",
     "react": "18.2.0",
@@ -23,7 +23,7 @@
   "devDependencies": {
     "@rollup/plugin-inject": "5.0.5",
     "@types/qrcode": "1.5.5",
-    "@types/react": "18.2.45",
+    "@types/react": "18.2.46",
     "@types/react-dom": "18.2.18",
     "@vitejs/plugin-react": "4.2.1",
     "node-stdlib-browser": "1.2.0",
