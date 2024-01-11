@@ -23,6 +23,6 @@ The .env file here is commited in the repository for simplicity. Anyway, these a
 - `npm run dev`
 
 ### Other tools
-- [Buildo Begins](https://github.com/xdevguild/buildo-begins) - command line interface for interacting with the MultiversX blockchain
+- [Buildo.dev](https://www.buildo.dev) - Buildo.dev is a MultiversX app that helps with blockchain interactions, like issuing tokens and querying smart contracts.
 - [Elven Tools](https://www.elven.tools) - a set of tools for running your PFP NFT collection on the MultiversX blockchain
 - [Elven.js](https://www.elvenjs.com) - compact browser only SDK for MultiversX blockchain interaction - no build steps 
