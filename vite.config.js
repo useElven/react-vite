@@ -1,41 +1,35 @@
-import inject from "@rollup/plugin-inject";
 import react from "@vitejs/plugin-react";
+import basicSsl from "@vitejs/plugin-basic-ssl";
+import { defineConfig } from "vite";
+import { nodePolyfills } from "vite-plugin-node-polyfills";
+import tsconfigPaths from "vite-tsconfig-paths";
 
-import { createRequire } from 'node:module';
-const require = createRequire(import.meta.url);
-
-export default async () => {
-  const { default: stdLibBrowser } = await import("node-stdlib-browser");
-  return {
-    resolve: {
-      alias: stdLibBrowser,
+export default defineConfig({
+  server: {
+    port: Number(process.env.PORT) || 3000,
+    strictPort: true,
+    host: true,
+    https: true,
+    watch: {
+      usePolling: false,
+      useFsEvents: false,
     },
-    optimizeDeps: {
-      include: ["buffer", "process"],
+    hmr: {
+      overlay: false,
     },
-    server: {
-      host: "localhost",
-      port: 3000,
-    },
-    plugins: [
-      react(),
-      {
-        ...inject({
-          global: [
-            require.resolve("node-stdlib-browser/helpers/esbuild/shim"),
-            "global",
-          ],
-          process: [
-            require.resolve("node-stdlib-browser/helpers/esbuild/shim"),
-            "process",
-          ],
-          Buffer: [
-            require.resolve("node-stdlib-browser/helpers/esbuild/shim"),
-            "Buffer",
-          ],
-        }),
-        enforce: "post",
-      },
-    ],
-  };
-};
+  },
+  plugins: [
+    react(),
+    basicSsl(),
+    tsconfigPaths(),
+    nodePolyfills({
+      globals: { Buffer: true, global: true, process: true },
+    }),
+  ],
+  preview: {
+    port: 3002,
+    https: true,
+    host: "localhost",
+    strictPort: true,
+  },
+});
