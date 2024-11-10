@@ -14,7 +14,7 @@ export const EGLDTx = () => {
 
   const handleSendTx = () => {
     const demoMessage =
-      "Transaction demo from useElven Vite + React dapp template!";
+      "Transaction demo from useElven Vite React dapp template!";
 
     const gasLimit = 50000 + 1500 * demoMessage.length;
 
