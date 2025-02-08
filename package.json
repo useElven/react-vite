@@ -1,7 +1,7 @@
 {
   "name": "useelven-react-vite",
   "private": true,
-  "version": "0.11.0",
+  "version": "0.12.0",
   "type": "module",
   "scripts": {
     "dev": "vite --host",
@@ -11,24 +11,24 @@
   "dependencies": {
     "@chakra-ui/icons": "2.2.4",
     "@chakra-ui/react": "2.8.2",
-    "@emotion/react": "11.13.3",
-    "@emotion/styled": "11.13.0",
-    "@multiversx/sdk-core": "13.14.1",
-    "@useelven/core": "0.22.0",
-    "framer-motion": "11.11.11",
+    "@emotion/react": "11.14.0",
+    "@emotion/styled": "11.14.0",
+    "@multiversx/sdk-core": "13.17.1",
+    "@useelven/core": "0.23.0",
+    "framer-motion": "12.4.1",
     "qrcode": "1.5.4",
-    "react": "18.3.1",
-    "react-dom": "18.3.1"
+    "react": "19.0.0",
+    "react-dom": "19.0.0"
   },
   "devDependencies": {
     "@types/qrcode": "1.5.5",
-    "@types/react": "18.3.12",
-    "@types/react-dom": "18.3.1",
-    "@vitejs/plugin-basic-ssl": "^1.1.0",
-    "@vitejs/plugin-react": "4.3.3",
-    "typescript": "5.6.3",
-    "vite": "5.4.10",
-    "vite-plugin-node-polyfills": "^0.22.0",
-    "vite-tsconfig-paths": "^5.1.2"
+    "@types/react": "19.0.8",
+    "@types/react-dom": "19.0.3",
+    "@vitejs/plugin-basic-ssl": "1.2.0",
+    "@vitejs/plugin-react": "4.3.4",
+    "typescript": "5.7.3",
+    "vite": "6.1.0",
+    "vite-plugin-node-polyfills": "0.23.0",
+    "vite-tsconfig-paths": "5.1.4"
   }
 }
